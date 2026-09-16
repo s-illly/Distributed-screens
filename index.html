@@ -8,6 +8,7 @@
       max-width: 600px;
       margin: 0 auto;
       padding: 20px;
+      background-color: coral;
     }
     #messages {
       height: 300px;
@@ -34,7 +35,7 @@
     const messageInput = document.getElementById('messageInput');
 
     // Connect to the WebSocket server
-    const ws = new WebSocket('ws://localhost:8080');
+    const ws = new WebSocket('ws://192.168.68.62:8080');
 
     // Connection opened
     ws.onopen = () => {
@@ -43,12 +44,16 @@
     };
 
     // Listen for messages
-    ws.onmessage = (event) => {
+    ws.onmessage = (event) => {      
       const message = document.createElement('div');
       message.className = 'message';
       message.textContent = event.data;
       messages.appendChild(message);
       messages.scrollTop = messages.scrollHeight;
+      if (message.textContent.includes("red")) {
+        document.body.style.backgroundColor = "red";
+      }
+     
     };
 
     // Handle errors
@@ -70,6 +75,7 @@
         ws.send(message);
         messageInput.value = '';
       }
+      
     }
 
     // Send message on Enter key

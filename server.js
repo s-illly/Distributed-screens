@@ -1,6 +1,6 @@
 const WebSocket = require('ws');
 
-// New websocket 
+// New websocket
 const wss = new WebSocket.Server({ port: 8080 });
 console.log('WebSocket server is running on ws://localhost:8080');
 
@@ -11,8 +11,10 @@ wss.on('connection', (ws) => {
     
     // Message event handler 
     ws.on('message', (message) => {
-        console.log(`Received: ${message}`);
-        ws.send(`Server received: ${message}`);
+        wss.clients.forEach((ws) => {
+            console.log(`Received: ${message}`);
+            ws.send(`Server received: ${message}`);
+        })
     });
 
     // Close event handler
